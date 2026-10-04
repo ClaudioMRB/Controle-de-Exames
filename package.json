@@ -1,0 +1,31 @@
+{
+  "name": "catalogo-de-exames",
+  "version": "1.0.0",
+  "description": "Cadastro local de códigos e descrições de exames",
+  "main": "src/main.js",
+  "author": "",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win nsis",
+    "dist:dir": "electron-builder --win dir"
+  },
+  "devDependencies": {
+    "electron": "^44.5.1",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "br.com.catalogoexames.app",
+    "productName": "Catálogo de Exames",
+    "directories": { "output": "dist" },
+    "files": ["src/**/*", "package.json"],
+    "win": { "target": [{ "target": "nsis", "arch": ["x64"] }] },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Catálogo de Exames"
+    }
+  }
+}

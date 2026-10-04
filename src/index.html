@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:" />
+    <title>Catálogo de Exames</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div class="brand-lockup">
+          <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+          <div><p class="brand-name">ARQUIVO CLÍNICO</p><p class="brand-caption">Cadastro local</p></div>
+        </div>
+        <div class="local-status"><span></span> Salvo neste computador</div>
+      </header>
+
+      <section class="workspace">
+        <nav class="workspace-tabs" aria-label="Seções do aplicativo">
+          <button class="workspace-tab active" type="button" data-view="catalog-view" aria-selected="true">Catálogo</button>
+          <button class="workspace-tab" type="button" data-view="recipe-view" aria-selected="false">Montar receita</button>
+        </nav>
+
+        <section class="app-view" id="catalog-view" aria-labelledby="page-title">
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">TABELA DE REFERÊNCIA</p>
+              <h1 id="page-title">Catálogo de exames</h1>
+              <p class="subtitle">Consulte e mantenha seus códigos organizados.</p>
+            </div>
+            <div class="heading-actions">
+              <button class="button button-secondary data-action" id="import-exams" type="button" title="Importar catálogo JSON"><svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M10 13V3m0 0L6.5 6.5M10 3l3.5 3.5M4 11v4.5A1.5 1.5 0 0 0 5.5 17h9a1.5 1.5 0 0 0 1.5-1.5V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Importar</button>
+              <button class="button button-secondary data-action" id="export-exams" type="button" title="Exportar catálogo JSON"><svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M10 3v10m0 0 3.5-3.5M10 13 6.5 9.5M4 11v4.5A1.5 1.5 0 0 0 5.5 17h9a1.5 1.5 0 0 0 1.5-1.5V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Exportar</button>
+              <button class="button button-primary" id="add-exam" type="button"><span class="button-plus" aria-hidden="true">+</span> Novo exame</button>
+            </div>
+          </div>
+
+          <section class="catalog-panel" aria-label="Lista de exames">
+            <div class="toolbar">
+              <div class="catalog-count"><span id="exam-count">0</span> exames cadastrados</div>
+              <label class="search-box">
+                <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><circle cx="8.8" cy="8.8" r="5.8" stroke="currentColor" stroke-width="1.6" /><path d="m13.2 13.2 4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
+                <input id="search" type="search" placeholder="Buscar por código ou descrição" autocomplete="off" />
+                <span class="search-shortcut" aria-hidden="true">/</span>
+              </label>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th scope="col" class="code-column">Código</th><th scope="col">Descrição</th><th scope="col" class="actions-column"><span class="visually-hidden">Ações</span></th></tr></thead>
+                <tbody id="exam-list"></tbody>
+              </table>
+              <div class="empty-state" id="empty-state" hidden>
+                <div class="empty-symbol" aria-hidden="true">＋</div>
+                <h2 id="empty-title">Sua lista começa aqui</h2>
+                <p id="empty-copy">Cadastre o primeiro exame para manter seus códigos à mão.</p>
+                <button class="button button-secondary" id="empty-add" type="button">Cadastrar exame</button>
+              </div>
+            </div>
+            <footer class="table-footer"><span id="result-count">Mostrando 0 exames</span><span class="footer-note"><span class="footer-dot"></span> Seus dados ficam no dispositivo</span></footer>
+          </section>
+        </section>
+
+        <section class="app-view" id="recipe-view" aria-labelledby="recipe-title" hidden>
+          <div class="page-heading recipe-heading">
+            <div>
+              <p class="eyebrow">DOCUMENTO PARA IMPRESSÃO</p>
+              <h1 id="recipe-title">Montar pedido de exames</h1>
+              <p class="subtitle">Preencha os dados e selecione os exames do catálogo.</p>
+            </div>
+            <button class="button button-primary print-button" id="print-recipe" type="button" title="Imprimir em papel A4">
+              <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M6 6V3.5h8V6M5.5 14H4a1.5 1.5 0 0 1-1.5-1.5v-4A1.5 1.5 0 0 1 4 7h12a1.5 1.5 0 0 1 1.5 1.5v4A1.5 1.5 0 0 1 16 14h-1.5M6 11.5h8v5H6v-5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="14.5" cy="9.5" r=".7" fill="currentColor"/></svg>
+              Imprimir A4
+            </button>
+          </div>
+
+          <div class="recipe-layout">
+            <div class="recipe-controls">
+              <section class="builder-section" aria-labelledby="patient-section-title">
+                <div class="section-heading"><span class="section-number">01</span><div><h2 id="patient-section-title">Dados do paciente</h2><p>Informações que aparecerão no pedido.</p></div></div>
+                <label class="field-label" for="patient-name">Nome completo <span class="required-mark">*</span></label>
+                <input class="text-input" id="patient-name" autocomplete="name" placeholder="Nome do paciente" />
+                <label class="field-label" for="patient-document">CPF</label>
+                <input class="text-input" id="patient-document" inputmode="numeric" maxlength="14" placeholder="000.000.000-00" />
+                <label class="field-label" for="order-date">Data do pedido <span class="required-mark">*</span></label>
+                <input class="text-input" id="order-date" type="date" required />
+                <label class="field-label" for="clinical-indication">Indicação clínica</label>
+                <textarea class="text-input indication-input" id="clinical-indication" rows="2" placeholder="Ex.: investigação de distúrbio hormonal"></textarea>
+              </section>
+
+              <section class="builder-section professional-section" aria-labelledby="professional-section-title">
+                <div class="section-heading"><span class="section-number">02</span><div><h2 id="professional-section-title">Profissional solicitante</h2><p>Identificação exibida no documento.</p></div></div>
+                <label class="field-label" for="professional-name">Nome</label>
+                <input class="text-input" id="professional-name" value="Dra. Taty Fukuda" autocomplete="off" />
+                <label class="field-label" for="professional-crm">CRM</label>
+                <input class="text-input" id="professional-crm" value="8730" autocomplete="off" />
+              </section>
+
+              <section class="builder-section footer-settings-section" aria-labelledby="footer-settings-title">
+                <div class="section-heading"><span class="section-number">03</span><div><h2 id="footer-settings-title">Rodapé da receita</h2><p>Edite o endereço e contato que serão impressos.</p></div></div>
+                <label class="field-label" for="footer-name">Nome do estabelecimento</label>
+                <input class="text-input" id="footer-name" value="Espaço Taty Fukuda" maxlength="200" />
+                <label class="field-label" for="footer-address-line-1">Endereço</label>
+                <input class="text-input" id="footer-address-line-1" value="Av. João Palácio, 300 · Shopping Mestre Álvaro · Bloco A, Salas 510/511" maxlength="200" />
+                <label class="field-label" for="footer-address-line-2">Bairro, cidade e CEP</label>
+                <input class="text-input" id="footer-address-line-2" value="Eurico Salles · Serra – ES · CEP 29160-161" maxlength="200" />
+                <label class="field-label" for="footer-contact">Telefone e e-mail</label>
+                <input class="text-input" id="footer-contact" value="Tel. (27) 3211-0606 · Cel. (27) 99877-7856 · espacopole@hotmail.com" maxlength="200" />
+                <button class="button button-secondary save-footer-button" id="save-footer" type="button">Salvar rodapé</button>
+              </section>
+
+              <section class="builder-section picker-section" aria-labelledby="picker-title">
+                <div class="section-heading"><span class="section-number">04</span><div><h2 id="picker-title">Adicionar exames</h2><p id="selected-count">Nenhum exame adicionado</p></div></div>
+                <label class="picker-search"><span class="visually-hidden">Buscar exame no catálogo</span><input id="recipe-search" type="search" placeholder="Buscar por código ou descrição" autocomplete="off" /></label>
+                <div class="exam-options" id="exam-options"></div>
+                <div class="selected-exams" id="selected-exams" aria-label="Exames adicionados à receita"></div>
+                <button class="button button-secondary add-from-catalog" id="go-to-catalog" type="button">+ Cadastrar exame no catálogo</button>
+              </section>
+              <p class="required-note"><span class="required-mark">*</span> Campo obrigatório para imprimir.</p>
+            </div>
+
+            <div class="paper-stage">
+              <article class="prescription-paper" id="recipe-print" aria-label="Prévia do pedido de exames em A4">
+                <svg class="paper-watermark" viewBox="0 0 130 78" fill="none" aria-hidden="true">
+                  <path d="M65 68C42 58 34 39 43 10c13 8 20 23 22 42C67 33 74 18 87 10c9 29 1 48-22 58Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                  <path d="M64 68C42 67 22 56 10 36c18-3 37 6 54 30ZM66 68c22-1 42-12 54-32-18-3-37 6-54 30ZM65 68C44 66 28 47 30 20c16 9 29 26 35 48ZM65 68c21-2 37-21 35-48-16 9-29 26-35 48Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                  <path d="M65 14v53M43 29l22 38M87 29 65 67M17 40l48 27M113 40 65 67" stroke="#91bec4" stroke-width="1.1" stroke-linecap="round" />
+                </svg>
+                <header class="paper-header">
+                  <svg class="lotus-mark" viewBox="0 0 130 78" fill="none" aria-hidden="true">
+                    <path d="M65 68C42 58 34 39 43 10c13 8 20 23 22 42C67 33 74 18 87 10c9 29 1 48-22 58Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" />
+                    <path d="M64 68C42 67 22 56 10 36c18-3 37 6 54 30ZM66 68c22-1 42-12 54-32-18-3-37 6-54 30ZM65 68C44 66 28 47 30 20c16 9 29 26 35 48ZM65 68c21-2 37-21 35-48-16 9-29 26-35 48Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" />
+                    <path d="M65 14v53M43 29l22 38M87 29 65 67M17 40l48 27M113 40 65 67" stroke="#82aeba" stroke-width="1.5" stroke-linecap="round" />
+                  </svg>
+                  <h2>ESPAÇO TATY FUKUDA</h2>
+                </header>
+                <div class="paper-patient">
+                  <p class="patient-name-print" id="print-patient-name">Nome do paciente</p>
+                  <div class="patient-meta-print" id="print-patient-meta"></div>
+                </div>
+                <section class="paper-order">
+                  <h3>PEDIDO DE EXAMES</h3>
+                  <p class="request-line">Solicito:</p>
+                  <ol class="paper-exam-list" id="paper-exam-list"></ol>
+                  <p class="paper-empty" id="paper-empty">Adicione exames do catálogo para incluí-los aqui.</p>
+                  <p class="paper-indication" id="paper-indication"></p>
+                </section>
+                <div class="paper-date" id="paper-date"></div>
+                <div class="paper-signature">
+                  <div class="signature-rule"></div>
+                  <strong id="print-professional-name">Dra. Taty Fukuda</strong>
+                  <span id="print-professional-crm">CRM 8730</span>
+                </div>
+                <footer class="paper-footer">
+                  <strong id="print-footer-name">Espaço Taty Fukuda</strong>
+                  <span id="print-footer-address-line-1">Av. João Palácio, 300 · Shopping Mestre Álvaro · Bloco A, Salas 510/511</span>
+                  <span id="print-footer-address-line-2">Eurico Salles · Serra – ES · CEP 29160-161</span>
+                  <span id="print-footer-contact">Tel. (27) 3211-0606 · Cel. (27) 99877-7856 · espacopole@hotmail.com</span>
+                </footer>
+              </article>
+            </div>
+          </div>
+        </section>
+      </section>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </main>
+
+    <dialog class="exam-dialog" id="exam-dialog" aria-labelledby="dialog-title">
+      <form id="exam-form">
+        <div class="dialog-topline"><span class="dialog-kicker" id="dialog-kicker">NOVO CADASTRO</span><button class="icon-button close-dialog" type="button" aria-label="Fechar">×</button></div>
+        <h2 id="dialog-title">Adicionar exame</h2>
+        <p class="dialog-description">Informe os dados que identificam este exame.</p>
+        <input id="exam-id" type="hidden" />
+        <label class="field-label" for="code">Código</label>
+        <input class="text-input" id="code" name="code" maxlength="80" required autocomplete="off" />
+        <label class="field-label" for="description">Descrição</label>
+        <textarea class="text-input description-input" id="description" name="description" maxlength="300" rows="3" required></textarea>
+        <p class="form-error" id="form-error" role="alert" hidden></p>
+        <div class="dialog-actions"><button class="button button-quiet cancel-dialog" type="button">Cancelar</button><button class="button button-primary" id="save-exam" type="submit">Salvar exame</button></div>
+      </form>
+    </dialog>
+
+    <dialog class="confirm-dialog" id="confirm-dialog" aria-labelledby="confirm-title">
+      <div class="confirm-content"><div class="warning-mark" aria-hidden="true">!</div><div><h2 id="confirm-title">Excluir este exame?</h2><p id="confirm-description">Essa ação não pode ser desfeita.</p></div></div>
+      <div class="dialog-actions"><button class="button button-quiet" id="cancel-delete" type="button">Cancelar</button><button class="button button-danger" id="confirm-delete" type="button">Excluir exame</button></div>
+    </dialog>
+
+    <script src="renderer.js"></script>
+  </body>
+</html>
