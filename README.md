@@ -8,6 +8,8 @@ O catálogo pode ser exportado e importado em JSON pela tela principal. A import
 
 Na seção **Montar receita**, é possível incluir o mesmo exame mais de uma vez. Cada inclusão é independente e aceita uma observação própria, que também aparece na prévia e na impressão A4. O catálogo continua impedindo códigos duplicados.
 
+A seção **Receita livre** oferece um modelo independente com texto editável, sem exigir paciente, data ou exames selecionados. Também é possível imprimir o modelo em branco para preencher à mão.
+
 ## Executar em desenvolvimento
 
 Requer Node.js 20 ou superior.

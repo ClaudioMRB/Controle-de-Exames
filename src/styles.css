@@ -125,6 +125,8 @@ dialog::backdrop { background: rgba(24, 39, 33, .34); backdrop-filter: blur(2px)
 .required-mark { color: #c26347; }
 .builder-section .field-label { display: block; font-size: 11px; }
 .builder-section .text-input { min-height: 36px; margin-bottom: 13px; padding: 8px 9px; font-size: 12px; }
+.signature-toggle { margin: 0 0 15px; display: flex; align-items: center; gap: 8px; color: #52605b; font-size: 11px; cursor: pointer; }
+.signature-toggle input { accent-color: var(--green); }
 .indication-input { min-height: 60px !important; resize: vertical; }
 .professional-section { padding-bottom: 1px; }
 .footer-settings-section { padding-bottom: 18px; }
@@ -170,6 +172,9 @@ dialog::backdrop { background: rgba(24, 39, 33, .34); backdrop-filter: blur(2px)
 .paper-occurrence-note { color: #4b4845; font-size: .92em; font-style: italic; white-space: pre-wrap; }
 .paper-empty { margin: 0; color: #8c8884; font-size: 8px; font-style: italic; }
 .paper-indication { min-height: 20px; margin: 24px 0 0; font-size: 9px; white-space: pre-wrap; }
+.free-content-input { min-height: 190px !important; resize: vertical; }
+.free-paper-order { display: flex; flex: 1; flex-direction: column; }
+.free-paper-content { min-height: 110px; white-space: pre-wrap; overflow-wrap: anywhere; }
 .paper-date { margin-top: 18px; font-size: 9px; }
 .paper-signature { width: 57%; margin-top: 25px; display: flex; flex-direction: column; align-items: flex-start; font-size: 9px; }
 .signature-rule { width: 100%; margin-bottom: 5px; border-top: 1px solid #77716c; }
@@ -211,29 +216,30 @@ dialog::backdrop { background: rgba(24, 39, 33, .34); backdrop-filter: blur(2px)
   .topbar, .workspace-tabs, .page-heading, .recipe-controls, .toast, #catalog-view { display: none !important; }
   .app-shell { min-height: 0; }
   .workspace { width: auto; margin: 0; padding: 0; }
-  #recipe-view, .recipe-layout, .paper-stage { display: block !important; }
+  #recipe-view:not([hidden]), #free-recipe-view:not([hidden]), .recipe-layout, .paper-stage { display: block !important; }
   html, body { width: 210mm; min-width: 0; height: 297mm; margin: 0; padding: 0; background: #fff !important; }
   body * { visibility: hidden !important; }
-  #recipe-print, #recipe-print * { visibility: visible !important; }
-  #recipe-print { position: relative; top: auto; left: auto; width: 210mm; min-width: 210mm; max-width: none; height: 297mm; margin: 0 auto; aspect-ratio: auto; padding: 17mm 18mm 13mm; overflow: hidden; break-inside: avoid; page-break-inside: avoid; box-shadow: none; transform: none; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-  #recipe-print .paper-watermark { top: 62mm; width: 174mm; max-height: 114mm; opacity: .06; }
-  #recipe-print .lotus-mark { width: 29mm; height: 18mm; }
-  #recipe-print .paper-header h2 { font-size: 12pt; }
-  #recipe-print .paper-patient { margin-top: 15mm; font-size: 11pt; }
-  #recipe-print .patient-name-print { font-size: 11pt; }
-  #recipe-print .patient-meta-print { font-size: 9pt; }
-  #recipe-print .paper-order { margin-top: 7mm; font-size: 10pt; }
-  #recipe-print .paper-order h3 { font-size: 10pt; }
+  #recipe-print, #recipe-print *, #free-recipe-print, #free-recipe-print * { visibility: visible !important; }
+  #recipe-print, #free-recipe-print { position: relative; top: auto; left: auto; width: 210mm; min-width: 210mm; max-width: none; height: 297mm; margin: 0 auto; aspect-ratio: auto; padding: 17mm 18mm 13mm; overflow: hidden; break-inside: avoid; page-break-inside: avoid; box-shadow: none; transform: none; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  #recipe-print .paper-watermark, #free-recipe-print .paper-watermark { top: 62mm; width: 174mm; max-height: 114mm; opacity: .06; }
+  #recipe-print .lotus-mark, #free-recipe-print .lotus-mark { width: 29mm; height: 18mm; }
+  #recipe-print .paper-header h2, #free-recipe-print .paper-header h2 { font-size: 12pt; }
+  #recipe-print .paper-patient, #free-recipe-print .paper-patient { margin-top: 15mm; font-size: 11pt; }
+  #recipe-print .patient-name-print, #free-recipe-print .patient-name-print { font-size: 11pt; }
+  #recipe-print .patient-meta-print, #free-recipe-print .patient-meta-print { font-size: 9pt; }
+  #recipe-print .paper-order, #free-recipe-print .paper-order { margin-top: 7mm; font-size: 10pt; }
+  #recipe-print .paper-order h3, #free-recipe-print .paper-order h3 { font-size: 10pt; }
   #recipe-print .paper-exam-list li { grid-template-columns: 20mm minmax(0, 1fr); min-height: 5mm; gap: 1mm; font-size: 10pt; line-height: 1.2; }
   #recipe-print .paper-empty { font-size: 9pt; }
-  #recipe-print .paper-indication { margin-top: 18mm; font-size: 10pt; }
-  #recipe-print .paper-date { margin-top: 9mm; font-size: 10pt; }
-  #recipe-print .paper-signature { margin-top: 15mm; font-size: 10pt; }
-  #recipe-print .paper-signature strong { font-size: 10pt; }
-  #recipe-print .paper-signature span { font-size: 9pt; }
-  #recipe-print .paper-footer { position: absolute; right: 18mm; bottom: 13mm; left: 18mm; display: flex; flex: none; margin-top: 0; font-size: 9pt; line-height: 1.5; visibility: visible !important; }
-  #recipe-print .paper-footer strong { font-size: 10pt; }
-  #recipe-print .paper-footer span { display: block; visibility: visible !important; }
+  #recipe-print .paper-indication, #free-recipe-print .paper-indication { margin-top: 18mm; font-size: 10pt; }
+  #recipe-print .paper-date, #free-recipe-print .paper-date { margin-top: 9mm; font-size: 10pt; }
+  #recipe-print .paper-signature, #free-recipe-print .paper-signature { margin-top: 15mm; font-size: 10pt; }
+  #recipe-print .paper-signature strong, #free-recipe-print .paper-signature strong { font-size: 10pt; }
+  #recipe-print .paper-signature span, #free-recipe-print .paper-signature span { font-size: 9pt; }
+  #recipe-print .paper-footer, #free-recipe-print .paper-footer { position: absolute; right: 18mm; bottom: 13mm; left: 18mm; display: flex; flex: none; margin-top: 0; font-size: 9pt; line-height: 1.5; visibility: visible !important; }
+  #recipe-print .paper-footer strong, #free-recipe-print .paper-footer strong { font-size: 10pt; }
+  #recipe-print .paper-footer span, #free-recipe-print .paper-footer span { display: block; visibility: visible !important; }
+  #free-recipe-print .free-paper-content { min-height: 110mm; }
   #recipe-print.dense .paper-exam-list li { min-height: 4mm; font-size: 9pt; }
   #recipe-print.dense .paper-patient { margin-top: 11mm; }
   #recipe-print.dense .paper-indication { margin-top: 10mm; }

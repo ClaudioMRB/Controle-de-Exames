@@ -148,8 +148,26 @@ function updateRecipePreview() {
     const printElement = document.querySelector(`#${printId}`);
     printElement.textContent = value;
     printElement.hidden = !value;
+    const freePrintElement = document.querySelector(`#free-print-${inputId}`);
+    freePrintElement.textContent = value;
+    freePrintElement.hidden = !value;
   });
   document.querySelector('#recipe-print').classList.toggle('dense', selected.length > 13);
+  updateFreeRecipePreview();
+}
+
+function updateFreeRecipePreview() {
+  const patientName = document.querySelector('#free-patient-name').value.trim();
+  const patientDocument = document.querySelector('#free-patient-document').value.trim();
+  document.querySelector('#free-print-patient-name').textContent = patientName;
+  document.querySelector('#free-print-patient-meta').textContent = patientDocument ? `CPF: ${patientDocument}` : '';
+  document.querySelector('#free-paper-content').textContent = document.querySelector('#free-recipe-content').value;
+  document.querySelector('#free-paper-indication').textContent = document.querySelector('#free-clinical-indication').value;
+  document.querySelector('#free-paper-date').textContent = document.querySelector('#free-order-date').value;
+  document.querySelector('#free-print-professional-name').textContent = document.querySelector('#free-professional-name').value.trim();
+  const crm = document.querySelector('#free-professional-crm').value.trim();
+  document.querySelector('#free-print-professional-crm').textContent = crm ? `CRM ${crm}` : '';
+  document.querySelector('#free-paper-signature').hidden = !document.querySelector('#free-show-signature').checked;
 }
 
 function showView(viewId) {
@@ -162,6 +180,8 @@ function showView(viewId) {
   if (viewId === 'recipe-view') {
     renderExamOptions();
     updateRecipePreview();
+  } else if (viewId === 'free-recipe-view') {
+    updateFreeRecipePreview();
   }
 }
 
@@ -268,6 +288,10 @@ selectedExamsElement.addEventListener('click', (event) => {
 ['patient-name', 'patient-document', 'order-date', 'clinical-indication', 'professional-name', 'professional-crm',
   'footer-name', 'footer-address-line-1', 'footer-address-line-2', 'footer-contact']
   .forEach((id) => document.querySelector(`#${id}`).addEventListener('input', updateRecipePreview));
+['free-patient-name', 'free-patient-document', 'free-order-date', 'free-recipe-content', 'free-clinical-indication',
+  'free-professional-name', 'free-professional-crm']
+  .forEach((id) => document.querySelector(`#${id}`).addEventListener('input', updateFreeRecipePreview));
+document.querySelector('#free-show-signature').addEventListener('change', updateFreeRecipePreview);
 
 document.querySelector('#patient-document').addEventListener('input', (event) => {
   const digits = event.target.value.replace(/\D/g, '').slice(0, 11);
@@ -318,6 +342,10 @@ document.querySelector('#print-recipe').addEventListener('click', () => {
     return;
   }
   updateRecipePreview();
+  window.print();
+});
+document.querySelector('#print-free-recipe').addEventListener('click', () => {
+  updateFreeRecipePreview();
   window.print();
 });
 document.addEventListener('keydown', (event) => {

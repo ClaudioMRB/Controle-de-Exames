@@ -21,6 +21,7 @@
         <nav class="workspace-tabs" aria-label="Seções do aplicativo">
           <button class="workspace-tab active" type="button" data-view="catalog-view" aria-selected="true">Catálogo</button>
           <button class="workspace-tab" type="button" data-view="recipe-view" aria-selected="false">Montar receita</button>
+          <button class="workspace-tab" type="button" data-view="free-recipe-view" aria-selected="false">Receita livre</button>
         </nav>
 
         <section class="app-view" id="catalog-view" aria-labelledby="page-title">
@@ -60,6 +61,92 @@
             </div>
             <footer class="table-footer"><span id="result-count">Mostrando 0 exames</span><span class="footer-note"><span class="footer-dot"></span> Seus dados ficam no dispositivo</span></footer>
           </section>
+        </section>
+
+        <section class="app-view" id="free-recipe-view" aria-labelledby="free-recipe-title" hidden>
+            <div class="page-heading recipe-heading">
+              <div>
+                <p class="eyebrow">DOCUMENTO PARA IMPRESSÃO</p>
+                <h1 id="free-recipe-title">Receita livre</h1>
+                <p class="subtitle">Escreva o conteúdo como preferir ou imprima em branco para preencher à mão.</p>
+              </div>
+              <button class="button button-primary print-button" id="print-free-recipe" type="button" title="Imprimir em papel A4">
+                <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M6 6V3.5h8V6M5.5 14H4a1.5 1.5 0 0 1-1.5-1.5v-4A1.5 1.5 0 0 1 4 7h12a1.5 1.5 0 0 1 1.5 1.5v4A1.5 1.5 0 0 1 16 14h-1.5M6 11.5h8v5H6v-5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="14.5" cy="9.5" r=".7" fill="currentColor"/></svg>
+                Imprimir A4
+              </button>
+            </div>
+
+            <div class="recipe-layout">
+              <div class="recipe-controls">
+                <section class="builder-section" aria-labelledby="free-patient-section-title">
+                  <div class="section-heading"><span class="section-number">01</span><div><h2 id="free-patient-section-title">Dados do paciente</h2><p>Todos os campos são opcionais.</p></div></div>
+                  <label class="field-label" for="free-patient-name">Nome completo</label>
+                  <input class="text-input" id="free-patient-name" autocomplete="name" placeholder="Nome do paciente" />
+                  <label class="field-label" for="free-patient-document">CPF</label>
+                  <input class="text-input" id="free-patient-document" placeholder="CPF (opcional)" />
+                  <label class="field-label" for="free-order-date">Data</label>
+                  <input class="text-input" id="free-order-date" placeholder="Data (opcional)" />
+                </section>
+
+                <section class="builder-section" aria-labelledby="free-content-section-title">
+                  <div class="section-heading"><span class="section-number">02</span><div><h2 id="free-content-section-title">Conteúdo da receita</h2><p>Digite qualquer texto; não é necessário selecionar exames.</p></div></div>
+                  <label class="field-label" for="free-recipe-content">Texto livre</label>
+                  <textarea class="text-input free-content-input" id="free-recipe-content" rows="10" placeholder="Escreva aqui as informações da receita. Você também pode deixar em branco para preencher à mão."></textarea>
+                  <label class="field-label" for="free-clinical-indication">Observações</label>
+                  <textarea class="text-input indication-input" id="free-clinical-indication" rows="3" placeholder="Observações opcionais"></textarea>
+                </section>
+
+                <section class="builder-section professional-section" aria-labelledby="free-professional-section-title">
+                  <div class="section-heading"><span class="section-number">03</span><div><h2 id="free-professional-section-title">Profissional solicitante</h2><p>Identificação exibida no documento.</p></div></div>
+                  <label class="field-label" for="free-professional-name">Nome</label>
+                  <input class="text-input" id="free-professional-name" value="Dra. Taty Fukuda" autocomplete="off" />
+                  <label class="field-label" for="free-professional-crm">CRM</label>
+                  <input class="text-input" id="free-professional-crm" value="8730" autocomplete="off" />
+                  <label class="signature-toggle" for="free-show-signature">
+                    <input id="free-show-signature" type="checkbox" checked />
+                    <span>Exibir área de assinatura do médico</span>
+                  </label>
+                </section>
+              </div>
+
+              <div class="paper-stage">
+                <article class="prescription-paper" id="free-recipe-print" aria-label="Prévia da receita livre em A4">
+                  <svg class="paper-watermark" viewBox="0 0 130 78" fill="none" aria-hidden="true">
+                    <path d="M65 68C42 58 34 39 43 10c13 8 20 23 22 42C67 33 74 18 87 10c9 29 1 48-22 58Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                    <path d="M64 68C42 67 22 56 10 36c18-3 37 6 54 30ZM66 68c22-1 42-12 54-32-18-3-37 6-54 30ZM65 68C44 66 28 47 30 20c16 9 29 26 35 48ZM65 68c21-2 37-21 35-48-16 9-29 26-35 48Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+                    <path d="M65 14v53M43 29l22 38M87 29 65 67M17 40l48 27M113 40 65 67" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" />
+                  </svg>
+                  <header class="paper-header">
+                    <svg class="lotus-mark" viewBox="0 0 130 78" fill="none" aria-hidden="true">
+                      <path d="M65 68C42 58 34 39 43 10c13 8 20 23 22 42C67 33 74 18 87 10c9 29 1 48-22 58Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" />
+                      <path d="M64 68C42 67 22 56 10 36c18-3 37 6 54 30ZM66 68c22-1 42-12 54-32-18-3-37 6-54 30ZM65 68C44 66 28 47 30 20c16 9 29 26 35 48ZM65 68c21-2 37-21 35-48-16 9-29 26-35 48Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" />
+                      <path d="M65 14v53M43 29l22 38M87 29 65 67M17 40l48 27M113 40 65 67" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                    </svg>
+                    <h2>ESPAÇO TATY FUKUDA</h2>
+                  </header>
+                  <div class="paper-patient">
+                    <p class="patient-name-print" id="free-print-patient-name"></p>
+                    <div class="patient-meta-print" id="free-print-patient-meta"></div>
+                  </div>
+                  <section class="paper-order free-paper-order">
+                    <div class="free-paper-content" id="free-paper-content"></div>
+                    <p class="paper-indication" id="free-paper-indication"></p>
+                  </section>
+                  <div class="paper-date" id="free-paper-date"></div>
+                  <div class="paper-signature" id="free-paper-signature">
+                    <div class="signature-rule"></div>
+                    <strong id="free-print-professional-name">Dra. Taty Fukuda</strong>
+                    <span id="free-print-professional-crm">CRM 8730</span>
+                  </div>
+                  <footer class="paper-footer">
+                    <strong id="free-print-footer-name">Espaço Taty Fukuda</strong>
+                    <span id="free-print-footer-address-line-1"></span>
+                    <span id="free-print-footer-address-line-2"></span>
+                    <span id="free-print-footer-contact"></span>
+                  </footer>
+                </article>
+              </div>
+            </div>
         </section>
 
         <section class="app-view" id="recipe-view" aria-labelledby="recipe-title" hidden>
@@ -125,13 +212,13 @@
                 <svg class="paper-watermark" viewBox="0 0 130 78" fill="none" aria-hidden="true">
                   <path d="M65 68C42 58 34 39 43 10c13 8 20 23 22 42C67 33 74 18 87 10c9 29 1 48-22 58Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
                   <path d="M64 68C42 67 22 56 10 36c18-3 37 6 54 30ZM66 68c22-1 42-12 54-32-18-3-37 6-54 30ZM65 68C44 66 28 47 30 20c16 9 29 26 35 48ZM65 68c21-2 37-21 35-48-16 9-29 26-35 48Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
-                  <path d="M65 14v53M43 29l22 38M87 29 65 67M17 40l48 27M113 40 65 67" stroke="#91bec4" stroke-width="1.1" stroke-linecap="round" />
+                  <path d="M65 14v53M43 29l22 38M87 29 65 67M17 40l48 27M113 40 65 67" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" />
                 </svg>
                 <header class="paper-header">
                   <svg class="lotus-mark" viewBox="0 0 130 78" fill="none" aria-hidden="true">
                     <path d="M65 68C42 58 34 39 43 10c13 8 20 23 22 42C67 33 74 18 87 10c9 29 1 48-22 58Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" />
                     <path d="M64 68C42 67 22 56 10 36c18-3 37 6 54 30ZM66 68c22-1 42-12 54-32-18-3-37 6-54 30ZM65 68C44 66 28 47 30 20c16 9 29 26 35 48ZM65 68c21-2 37-21 35-48-16 9-29 26-35 48Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" />
-                    <path d="M65 14v53M43 29l22 38M87 29 65 67M17 40l48 27M113 40 65 67" stroke="#82aeba" stroke-width="1.5" stroke-linecap="round" />
+                    <path d="M65 14v53M43 29l22 38M87 29 65 67M17 40l48 27M113 40 65 67" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                   </svg>
                   <h2>ESPAÇO TATY FUKUDA</h2>
                 </header>
