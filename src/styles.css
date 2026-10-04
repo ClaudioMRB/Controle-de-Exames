@@ -154,10 +154,10 @@ dialog::backdrop { background: rgba(24, 39, 33, .34); backdrop-filter: blur(2px)
 .required-note { margin: 12px 2px; color: #8a948e; font-size: 10px; }
 .paper-stage { min-width: 0; padding: 0 0 24px; }
 .prescription-paper { position: relative; width: 100%; aspect-ratio: 210 / 297; padding: 6% 7% 5%; display: flex; flex-direction: column; overflow: hidden; background: #fff; box-shadow: 0 5px 26px rgba(30, 48, 40, .13); color: #24211f; font-family: 'Times New Roman', Georgia, serif; }
-.paper-watermark { position: absolute; z-index: 0; top: 28%; left: 50%; width: 90%; max-height: 48%; transform: translateX(-50%); color: #a99ab2; opacity: .12; pointer-events: none; }
+.paper-watermark { position: absolute; z-index: 0; top: 28%; left: 50%; width: 90%; height: auto; max-height: 48%; transform: translateX(-50%); opacity: .12; pointer-events: none; object-fit: contain; }
 .prescription-paper > :not(.paper-watermark) { position: relative; z-index: 1; }
 .paper-header { flex: none; text-align: center; }
-.lotus-mark { width: 81px; height: 49px; color: #3b3549; }
+.lotus-mark { width: 81px; height: auto; }
 .paper-header h2 { margin: 3px 0 0; font-size: 10px; font-weight: 700; }
 .paper-patient { margin-top: 25px; font-size: 9px; }
 .patient-name-print { margin: 0 0 4px; font-size: 9px; font-weight: 700; text-transform: uppercase; }
@@ -222,7 +222,7 @@ dialog::backdrop { background: rgba(24, 39, 33, .34); backdrop-filter: blur(2px)
   #recipe-print, #recipe-print *, #free-recipe-print, #free-recipe-print * { visibility: visible !important; }
   #recipe-print, #free-recipe-print { position: relative; top: auto; left: auto; width: 210mm; min-width: 210mm; max-width: none; height: 297mm; margin: 0 auto; aspect-ratio: auto; padding: 17mm 18mm 13mm; overflow: hidden; break-inside: avoid; page-break-inside: avoid; box-shadow: none; transform: none; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
   #recipe-print .paper-watermark, #free-recipe-print .paper-watermark { top: 62mm; width: 174mm; max-height: 114mm; opacity: .06; }
-  #recipe-print .lotus-mark, #free-recipe-print .lotus-mark { width: 29mm; height: 18mm; }
+  #recipe-print .lotus-mark, #free-recipe-print .lotus-mark { width: 29mm; height: auto; }
   #recipe-print .paper-header h2, #free-recipe-print .paper-header h2 { font-size: 12pt; }
   #recipe-print .paper-patient, #free-recipe-print .paper-patient { margin-top: 15mm; font-size: 11pt; }
   #recipe-print .patient-name-print, #free-recipe-print .patient-name-print { font-size: 11pt; }
